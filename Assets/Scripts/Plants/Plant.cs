@@ -8,10 +8,11 @@ public class Plant : MonoBehaviour {
     public UnityEvent died = default;
 
     public GameObject bullet;
+    public GameObject sun;
     public float upwardOffset;
     public int maxHealth;
     public int attackDamage;
-    public int attackTimeout;
+    public int abilityTimeout;
 
 
     private int currentHealth;
@@ -20,7 +21,7 @@ public class Plant : MonoBehaviour {
         transform.position += Vector3.up * upwardOffset;
         currentHealth = maxHealth;
 
-        StartCoroutine(Attack());
+        StartCoroutine(UseAbility());
     }
 
 
@@ -28,12 +29,21 @@ public class Plant : MonoBehaviour {
 
     }
 
-    private IEnumerator Attack() {
+    private IEnumerator UseAbility() {
         while (true) {
-            var _bullet = Instantiate(bullet, transform.position, Quaternion.identity).GetComponent<Bullet>();
-            _bullet.damage = attackDamage;
-            yield return new WaitForSeconds(attackTimeout);
+            Attack();
+            // GenerateSuns();
+            yield return new WaitForSeconds(abilityTimeout);
         }
+    }
+
+    private void Attack() {
+        var _bullet = Instantiate(bullet, transform.position, Quaternion.identity).GetComponent<Bullet>();
+        _bullet.damage = attackDamage;
+    }
+
+    private void GenerateSuns() {
+        Instantiate(sun, transform.position + Vector3.up * Random.value * 0.5f, Quaternion.identity);
     }
 
     public void TakeDamage(int damage) {
