@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour {
 
     private void Start() {
         rb = GetComponent<Rigidbody>();
-        rb.AddForce(Vector3.forward * speed, ForceMode.VelocityChange);
+        rb.AddForce(Vector3.right * speed, ForceMode.VelocityChange);
     }
 
     private void OnTriggerEnter(Collider other) {

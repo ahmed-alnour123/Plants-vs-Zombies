@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour {
     }
 
     void Move() {
-        transform.Translate(Vector3.back * speed * Time.deltaTime);
+        transform.Translate(Vector3.left * speed * Time.deltaTime);
     }
 
     private IEnumerator Attack(Plant plant) {

@@ -13,7 +13,7 @@ public class Plant : MonoBehaviour {
     public int maxHealth;
     public int attackDamage;
     public int abilityTimeout;
-    [SerializeField] PlantType plantType;
+    [SerializeField] public PlantType plantType;
 
 
     private int currentHealth;
@@ -46,6 +46,7 @@ public class Plant : MonoBehaviour {
 
     private void Attack() {
         // check with raycast first
+        if (!Physics.Raycast(transform.position, Vector3.right)) return;
         var _bullet = Instantiate(bullet, transform.position, Quaternion.identity).GetComponent<Bullet>();
         _bullet.damage = attackDamage;
     }
@@ -65,7 +66,8 @@ public class Plant : MonoBehaviour {
     private void Die() {
         // play death animation
         died?.Invoke();
-        Destroy(gameObject);
+        if (gameObject != null)
+            Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -74,5 +76,5 @@ public class Plant : MonoBehaviour {
         }
     }
 
-    enum PlantType { Gun, Sun }
 }
+public enum PlantType { Gun, Sun }

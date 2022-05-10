@@ -2,30 +2,48 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+[RequireComponent(typeof(EventTrigger))]
 public class PlantDrag : MonoBehaviour {
     public GameObject plant;
     private Camera cam;
 
     private PlantsPlacer placer;
     private GameObject currentPlant;
+    private float upwardOffset;
 
     // Debug
 
     private void Start() {
         placer = FindObjectOfType<PlantsPlacer>();
+        upwardOffset = plant.GetComponent<Plant>().upwardOffset / 2;
         cam = Camera.main;
+
+        // Mouse up
+        var trigger = GetComponent<EventTrigger>();
+        var entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerDown;
+        entry.callback.AddListener(MouseDown);
+        trigger.triggers.Add(entry);
+
+        // Mouse down
+        entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerUp;
+        entry.callback.AddListener(MouseUp);
+        trigger.triggers.Add(entry);
     }
 
     private void Update() {
         if (currentPlant == null) return;
-        var mousePos = Input.mousePosition;
-        mousePos.z = 10;
-        var newPos = cam.ScreenToWorldPoint(mousePos);
-        currentPlant.transform.position = newPos;
+        // var mousePos = Input.mousePosition;
+        // mousePos.z = 10;
+        // currentPlant.transform.position = cam.ScreenToWorldPoint(mousePos);
+        var ray = cam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit info)) {
+            currentPlant.transform.position = info.point + (Vector3.up * upwardOffset);
+        }
     }
 
     public void MouseDown(BaseEventData data) {
-        Debug.Log("Mouse Down");
         PointerEventData pointerData = (PointerEventData)data;
         if (placer.isDragging) return;
         placer.isDragging = true;
@@ -35,7 +53,7 @@ public class PlantDrag : MonoBehaviour {
             throw new System.Exception("How did this happen?");
         }
 
-        placer.plant = plant;
+        placer.currentPlant = plant;
         currentPlant = Instantiate(plant);
         currentPlant.name = "HI THERE";
         currentPlant.transform.localScale = plant.transform.localScale;
@@ -43,7 +61,6 @@ public class PlantDrag : MonoBehaviour {
     }
 
     public void MouseUp(BaseEventData data) {
-        Debug.Log("Mouse Up");
         PointerEventData pointerData = (PointerEventData)data;
         placer.isDragging = false;
 
