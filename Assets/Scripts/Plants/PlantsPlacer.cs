@@ -12,6 +12,7 @@ public class PlantsPlacer : MonoBehaviour {
     [Space()]
     public GameObject cardTemplate;
     public Transform cardsUIParent;
+    public Gradient gradient;
 
     [HideInInspector] public bool isDragging;
 
@@ -20,7 +21,7 @@ public class PlantsPlacer : MonoBehaviour {
             var card = Instantiate(cardTemplate, cardsUIParent);
             card.SetActive(true);
             card.GetComponent<PlantDrag>().plant = plant;
-            card.GetComponentInChildren<Image>().color = plant.GetComponent<Plant>().plantType == PlantType.Gun ? Color.red : Color.yellow; // TODO: remove later
+            card.GetComponentInChildren<Image>().color = gradient.Evaluate(((float)plants.IndexOf(plant) / plants.Count));
             // card.sprite = plant.sprite
         }
     }
@@ -34,7 +35,7 @@ public class PlantsPlacer : MonoBehaviour {
         if (Physics.Raycast(ray, out RaycastHit info, 1000, tilesLayer)) {
             // Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere), info.transform.position + Vector3.up, Quaternion.identity).transform.localScale = Vector3.one * 0.25f;
             if (info.transform.gameObject.layer == LayerMask.NameToLayer("Tile") && TileIsEmpty(info.transform.position))
-                Instantiate(currentPlant, info.transform.position, Quaternion.identity, transform);
+                Instantiate(currentPlant, info.transform.position + Vector3.up * currentPlant.GetComponent<Plant>().upwardOffset, Quaternion.identity, transform).GetComponent<Plant>().StartUseAbility();
             // if (info.transform.CompareTag("Plant"))
         }
     }

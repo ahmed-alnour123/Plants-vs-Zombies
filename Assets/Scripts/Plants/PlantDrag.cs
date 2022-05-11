@@ -15,7 +15,8 @@ public class PlantDrag : MonoBehaviour {
 
     private void Start() {
         placer = FindObjectOfType<PlantsPlacer>();
-        upwardOffset = plant.GetComponent<Plant>().upwardOffset / 2;
+        var plantComponent = plant.GetComponent<Plant>();
+        upwardOffset = plantComponent.upwardOffset / 2;
         cam = Camera.main;
 
         // Mouse up

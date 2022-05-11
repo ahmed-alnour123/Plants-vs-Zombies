@@ -12,7 +12,9 @@ public class Plant : MonoBehaviour {
     public float upwardOffset;
     public int maxHealth;
     public int attackDamage;
-    public int abilityTimeout;
+    public float abilityTimeout;
+    public float abilityRadius;
+    // [HideInInspector] public bool canUseAbility;
     [SerializeField] public PlantType plantType;
 
 
@@ -20,16 +22,18 @@ public class Plant : MonoBehaviour {
     private System.Action UseAbility;
 
     void Start() {
-        transform.position += Vector3.up * upwardOffset;
+        // transform.position += Vector3.up * upwardOffset;
         currentHealth = maxHealth;
+        // canUseAbility = true;
 
         UseAbility = plantType switch {
             PlantType.Gun => Attack,
             PlantType.Sun => GenerateSuns,
+            PlantType.Bomb => Explode,
             _ => () => { }
         };
 
-        StartCoroutine(UseAbilityRoutine());
+        // StartUseAbility();
     }
 
 
@@ -37,22 +41,16 @@ public class Plant : MonoBehaviour {
 
     }
 
+    public void StartUseAbility() {
+        StartCoroutine(UseAbilityRoutine());
+    }
+
     private IEnumerator UseAbilityRoutine() {
         while (true) {
-            UseAbility();
+            // if (canUseAbility)
+            UseAbility?.Invoke();
             yield return new WaitForSeconds(abilityTimeout);
         }
-    }
-
-    private void Attack() {
-        // check with raycast first
-        if (!Physics.Raycast(transform.position, Vector3.right)) return;
-        var _bullet = Instantiate(bullet, transform.position, Quaternion.identity).GetComponent<Bullet>();
-        _bullet.damage = attackDamage;
-    }
-
-    private void GenerateSuns() {
-        Instantiate(sun, transform.position + Vector3.up + Random.onUnitSphere * 0.25f, Quaternion.identity);
     }
 
     public void TakeDamage(int damage) {
@@ -76,5 +74,33 @@ public class Plant : MonoBehaviour {
         }
     }
 
+    private void OnDrawGizmos() {
+        if (plantType == PlantType.Bomb) {
+            Gizmos.color = Color.white * 0.33f;
+            Gizmos.DrawSphere(transform.position, abilityRadius);
+        }
+    }
+
+    #region Plants Abilities
+    private void Attack() {
+        // check with raycast first
+        if (!Physics.Raycast(transform.position, Vector3.right)) return;
+        var _bullet = Instantiate(bullet, transform.position, Quaternion.identity).GetComponent<Bullet>();
+        _bullet.damage = attackDamage;
+    }
+
+    private void GenerateSuns() {
+        Instantiate(sun, transform.position + Vector3.up + Random.onUnitSphere * 0.25f, Quaternion.identity);
+    }
+
+    private void Explode() {
+        foreach (var collider in Physics.OverlapSphere(transform.position, abilityRadius)) {
+            if (!collider.CompareTag("Enemy")) continue;
+            collider.GetComponent<Enemy>().TakeDamage(attackDamage);
+        }
+        Destroy(gameObject);
+    }
+    #endregion Plants Abilities
+
 }
-public enum PlantType { Gun, Sun }
+public enum PlantType { Gun, Sun, Bomb }
