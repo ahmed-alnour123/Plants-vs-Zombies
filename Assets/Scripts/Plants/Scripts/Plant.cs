@@ -14,6 +14,10 @@ public class Plant : MonoBehaviour {
     public int attackDamage;
     public float abilityTimeout;
     public float abilityRadius;
+    public int abilityAmount;
+    public int price;
+
+    public Sprite icon;
     // [HideInInspector] public bool canUseAbility;
     [SerializeField] public PlantType plantType;
 
@@ -84,13 +88,22 @@ public class Plant : MonoBehaviour {
     #region Plants Abilities
     private void Attack() {
         // check with raycast first
-        if (!Physics.Raycast(transform.position, Vector3.right)) return;
-        var _bullet = Instantiate(bullet, transform.position, Quaternion.identity).GetComponent<Bullet>();
-        _bullet.damage = attackDamage;
+        var enemyExist = false;
+        foreach (var collider in Physics.RaycastAll(transform.position, Vector3.right)) {
+            if (collider.collider.CompareTag("Enemy")) {
+                enemyExist = true;
+                break;
+            }
+        }
+
+        if (enemyExist) {
+            var _bullet = Instantiate(bullet, transform.position, Quaternion.identity).GetComponent<Bullet>();
+            _bullet.damage = attackDamage;
+        }
     }
 
     private void GenerateSuns() {
-        Instantiate(sun, transform.position + Vector3.up + Random.onUnitSphere * 0.25f, Quaternion.identity);
+        Instantiate(sun, transform.position + Vector3.up + Random.onUnitSphere * 0.25f, Quaternion.identity).GetComponent<Sun>().coins = abilityAmount;
     }
 
     private void Explode() {
