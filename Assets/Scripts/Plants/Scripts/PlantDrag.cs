@@ -4,20 +4,21 @@ using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(EventTrigger))]
 public class PlantDrag : MonoBehaviour {
-    public GameObject plant;
-    private Camera cam;
+    public Plant plant;
 
+    private Camera cam;
     private PlantsPlacer placer;
-    private GameObject currentPlant;
+    private Plant currentPlant;
     private float upwardOffset;
+    private GameManager gameManager;
 
     // Debug
 
     private void Start() {
         placer = FindObjectOfType<PlantsPlacer>();
-        var plantComponent = plant.GetComponent<Plant>();
-        upwardOffset = plantComponent.upwardOffset / 2;
+        upwardOffset = plant.upwardOffset / 2;
         cam = Camera.main;
+        gameManager = GameManager.instance;
 
         // Mouse up
         var trigger = GetComponent<EventTrigger>();
@@ -35,22 +36,25 @@ public class PlantDrag : MonoBehaviour {
 
     private void Update() {
         if (currentPlant == null) return;
-        // var mousePos = Input.mousePosition;
-        // mousePos.z = 10;
-        // currentPlant.transform.position = cam.ScreenToWorldPoint(mousePos);
         var ray = cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit info)) {
             currentPlant.transform.position = info.point + (Vector3.up * upwardOffset);
+        } else {
+            var mousePos = Input.mousePosition;
+            mousePos.z = 20;
+            currentPlant.transform.position = cam.ScreenToWorldPoint(mousePos);
         }
     }
 
     public void MouseDown(BaseEventData data) {
-        PointerEventData pointerData = (PointerEventData)data;
         if (placer.isDragging) return;
+
+        if (!gameManager.UseCoins(plant.price)) return;
+
         placer.isDragging = true;
 
         if (currentPlant != null) {
-            Destroy(currentPlant);
+            Destroy(currentPlant.gameObject);
             throw new System.Exception("How did this happen?");
         }
 
@@ -62,11 +66,12 @@ public class PlantDrag : MonoBehaviour {
     }
 
     public void MouseUp(BaseEventData data) {
-        PointerEventData pointerData = (PointerEventData)data;
+        if (!placer.isDragging) return;
+
         placer.isDragging = false;
 
         if (currentPlant != null) {
-            Destroy(currentPlant);
+            Destroy(currentPlant.gameObject);
             placer.PlacePlant();
         } else {
             throw new System.Exception("How did you get here?");

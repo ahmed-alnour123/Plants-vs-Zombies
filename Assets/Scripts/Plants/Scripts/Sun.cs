@@ -2,9 +2,14 @@ using UnityEngine;
 
 public class Sun : MonoBehaviour {
 
+    public int coins;
+
     private Vector3 initialPos;
+    private GameManager gameManager;
+
     void Start() {
         initialPos = transform.position;
+        gameManager = GameManager.instance;
     }
 
 
@@ -13,6 +18,7 @@ public class Sun : MonoBehaviour {
     }
 
     private void OnMouseDown() {
+        gameManager.AddCoins(coins);
         Destroy(gameObject);
     }
 }

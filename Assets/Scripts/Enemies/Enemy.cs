@@ -4,7 +4,8 @@ using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour {
     // private UnityEvent touchedPlant = default;
-    // private UnityEvent died = default;
+    [HideInInspector]
+    public UnityEvent died = default;
 
     public int maxHealth;
     public int attackDamage;
@@ -51,6 +52,7 @@ public class Enemy : MonoBehaviour {
     }
 
     private void Die() {
+        died?.Invoke();
         Destroy(gameObject);
     }
 
