@@ -89,7 +89,9 @@ public class Plant : MonoBehaviour {
     private void Attack() {
         // check with raycast first
         var enemyExist = false;
-        foreach (var collider in Physics.RaycastAll(transform.position, Vector3.right)) {
+        // foreach (var collider in Physics.RaycastAll(transform.position, Vector3.right)) {
+
+        foreach (var collider in Physics.BoxCastAll(transform.position, Vector3.one * 0.25f, Vector3.right)) {
             if (collider.collider.CompareTag("Enemy")) {
                 enemyExist = true;
                 break;

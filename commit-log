@@ -1,0 +1,155 @@
+On branch master
+Your branch and 'origin/master' have diverged,
+and have 1 and 2 different commits each, respectively.
+  (use "git pull" to merge the remote branch into yours)
+
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+Changes to be committed:
+	new file:   .vsconfig
+	new file:   Assets/Characters.meta
+	new file:   Assets/Characters/Woman.meta
+	new file:   Assets/Characters/Woman/Materials.meta
+	new file:   Assets/Characters/Woman/Materials/Hair_low_Hair_BaseColor.mat
+	new file:   Assets/Characters/Woman/Materials/Hair_low_Hair_BaseColor.mat.meta
+	new file:   Assets/Characters/Woman/Materials/No Name.mat
+	new file:   Assets/Characters/Woman/Materials/No Name.mat.meta
+	new file:   Assets/Characters/Woman/Materials/SheildMesh_SheildMat_BaseColor.mat
+	new file:   Assets/Characters/Woman/Materials/SheildMesh_SheildMat_BaseColor.mat.meta
+	new file:   Assets/Characters/Woman/Materials/Sparta_woman_low_Body_BaseColor.mat
+	new file:   Assets/Characters/Woman/Materials/Sparta_woman_low_Body_BaseColor.mat.meta
+	new file:   Assets/Characters/Woman/Materials/Sparta_woman_low_UooerArmor_BaseColor.mat
+	new file:   Assets/Characters/Woman/Materials/Sparta_woman_low_UooerArmor_BaseColor.mat.meta
+	new file:   Assets/Characters/Woman/SpartianWoman@Shoved Reaction With Spin.fbx
+	new file:   Assets/Characters/Woman/SpartianWoman@Shoved Reaction With Spin.fbx.meta
+	new file:   Assets/Characters/Woman/SpartianWoman@Shoved Reaction With Spin.prefab
+	new file:   Assets/Characters/Woman/SpartianWoman@Shoved Reaction With Spin.prefab.meta
+	new file:   Assets/Characters/Woman/textures.meta
+	new file:   Assets/Characters/Woman/textures/Hair_low_Hair_BaseColor.png
+	new file:   Assets/Characters/Woman/textures/Hair_low_Hair_BaseColor.png.meta
+	new file:   Assets/Characters/Woman/textures/Hair_low_Hair_Normal.png
+	new file:   Assets/Characters/Woman/textures/Hair_low_Hair_Normal.png.meta
+	new file:   Assets/Characters/Woman/textures/SheildMesh_SheildMat_BaseColor.png
+	new file:   Assets/Characters/Woman/textures/SheildMesh_SheildMat_BaseColor.png.meta
+	new file:   Assets/Characters/Woman/textures/SheildMesh_SheildMat_Normal.png
+	new file:   Assets/Characters/Woman/textures/SheildMesh_SheildMat_Normal.png.meta
+	new file:   Assets/Characters/Woman/textures/Sparta_woman_low_Body_BaseColor.png
+	new file:   Assets/Characters/Woman/textures/Sparta_woman_low_Body_BaseColor.png.meta
+	new file:   Assets/Characters/Woman/textures/Sparta_woman_low_Body_Normal.png
+	new file:   Assets/Characters/Woman/textures/Sparta_woman_low_Body_Normal.png.meta
+	new file:   Assets/Characters/Woman/textures/Sparta_woman_low_UooerArmor_BaseColor.png
+	new file:   Assets/Characters/Woman/textures/Sparta_woman_low_UooerArmor_BaseColor.png.meta
+	new file:   Assets/Characters/Woman/textures/Sparta_woman_low_UooerArmor_Normal.png
+	new file:   Assets/Characters/Woman/textures/Sparta_woman_low_UooerArmor_Normal.png.meta
+	new file:   Assets/Nokobot.meta
+	new file:   Assets/Nokobot/ColonialShip.meta
+	new file:   Assets/Nokobot/ColonialShip/01_Scenes.meta
+	new file:   Assets/Nokobot/ColonialShip/01_Scenes/AssetCollection.unity
+	new file:   Assets/Nokobot/ColonialShip/01_Scenes/AssetCollection.unity.meta
+	new file:   Assets/Nokobot/ColonialShip/01_Scenes/DisplayScene.unity
+	new file:   Assets/Nokobot/ColonialShip/01_Scenes/DisplayScene.unity.meta
+	new file:   Assets/Nokobot/ColonialShip/01_Scenes/DisplaySceneSettings.lighting
+	new file:   Assets/Nokobot/ColonialShip/01_Scenes/DisplaySceneSettings.lighting.meta
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs.meta
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Colonial Ship.prefab
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Colonial Ship.prefab.meta
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Colonial Ship_Empty.prefab
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Colonial Ship_Empty.prefab.meta
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Extra Items.meta
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Extra Items/Barrel_Rum.prefab
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Extra Items/Barrel_Rum.prefab.meta
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Extra Items/Barrel_Simple.prefab
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Extra Items/Barrel_Simple.prefab.meta
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Extra Items/Barrel_Small.prefab
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Extra Items/Barrel_Small.prefab.meta
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Extra Items/Cannon.prefab
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Extra Items/Cannon.prefab.meta
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Extra Items/Cannon_Balls_Set.prefab
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Extra Items/Cannon_Balls_Set.prefab.meta
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Extra Items/Treasure_Chest.prefab
+	new file:   Assets/Nokobot/ColonialShip/02_Prefabs/Extra Items/Treasure_Chest.prefab.meta
+	new file:   Assets/Nokobot/ColonialShip/03_Models.meta
+	new file:   Assets/Nokobot/ColonialShip/03_Models/Colonial Ship.FBX
+	new file:   Assets/Nokobot/ColonialShip/03_Models/Colonial Ship.FBX.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Barrels_Material.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Barrels_Material.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Boxes+TreasureChests.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Boxes+TreasureChests.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Cannons+CannonBalls+Windows.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Cannons+CannonBalls+Windows.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Fin+Basket+Doors.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Fin+Basket+Doors.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Floor+Wheel.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Floor+Wheel.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Hatches+Stairs.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Hatches+Stairs.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Mast_01+Box.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Mast_01+Box.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Mast_02.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Mast_02.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Rail.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Rail.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Rail_Blue.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Rail_Blue.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Rig.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Rig.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Ropes.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Ropes.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Sails_01.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Sails_01.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Sails_02+Ladders+Foremast.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Sails_02+Ladders+Foremast.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Sails_Jib+Back.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Sails_Jib+Back.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Sandbags+Lanterns.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Sandbags+Lanterns.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Ship_Body.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Ship_Body.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Staircase.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Staircase.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Windows_Glasses.mat
+	new file:   Assets/Nokobot/ColonialShip/04_Materials/Windows_Glasses.mat.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Barrels.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Barrels.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Boxes+TreasureBoxes.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Boxes+TreasureBoxes.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Cannons+CannonBalls+Windows.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Cannons+CannonBalls+Windows.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Fin+Basket+Doors.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Fin+Basket+Doors.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Floor+Wheel.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Floor+Wheel.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Hatches+Stairs.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Hatches+Stairs.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Lanterns+sandbags.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Lanterns+sandbags.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Mast_01+Box.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Mast_01+Box.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Mast_02.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Mast_02.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Rail.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Rail.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Rig.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Rig.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Ropes.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Ropes.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Sails_01.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Sails_01.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Sails_02+Ladders+Foremast.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Sails_02+Ladders+Foremast.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Sails_Jib+Back.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Sails_Jib+Back.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Ship_Body.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Ship_Body.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Staircase.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Staircase.png.meta
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Window_Glasses.png
+	new file:   Assets/Nokobot/ColonialShip/05_Textures/Window_Glasses.png.meta
+	new file:   Assets/Nokobot/ColonialShip/ShipProfile.asset
+	new file:   Assets/Nokobot/ColonialShip/ShipProfile.asset.meta
+	modified:   Packages/packages-lock.json
+	modified:   ProjectSettings/ProjectVersion.txt
+
