@@ -58,10 +58,6 @@ public class GameManager : MonoBehaviour {
         Time.timeScale = 0;
     }
 
-    public void ReturnToMainMenu() {
-        SceneManager.LoadScene("");
-    }
-
     public void OnToggleChange(bool value) {
         isDeleting = !value;
     }
