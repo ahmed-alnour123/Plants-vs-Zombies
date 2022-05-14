@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,13 +19,13 @@ public class EnemiesSpawner : MonoBehaviour {
     public TMP_Text level;
 
     private bool lastWave;
+    private int enemiesCount;
+    private int currentEnemiesCount;
 
     void Start() {
         StartCoroutine(Spawn(0));
-    }
-
-    private void Update() {
-        // waveSlider.value = waveCounter;
+        enemiesCount = waves.Sum();
+        currentEnemiesCount = 0;
     }
 
     IEnumerator Spawn(int i) {
@@ -33,8 +34,10 @@ public class EnemiesSpawner : MonoBehaviour {
 
         yield return new WaitForSeconds(betweenWavesTimeout);
         for (int j = 0; j < waves[i]; j++) {
+            currentEnemiesCount++;
+            gameObject.LeanValue(waveSlider.value, (float)currentEnemiesCount / enemiesCount, 2).setOnUpdate(f => waveSlider.value = f);
             var enemy = Instantiate(Utils.RandomSelect<GameObject>(enemies), Utils.RandomSelect<Transform>(spawnPoints).position, Quaternion.identity);
-            if (j == waves[i] - 1)
+            if (j == waves[i] - 1) // if last enemy
                 enemy.GetComponent<Enemy>().died.AddListener(() => {
                     if (lastWave)
                         GameManager.instance.WinGame();
