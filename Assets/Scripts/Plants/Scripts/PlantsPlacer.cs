@@ -42,8 +42,10 @@ public class PlantsPlacer : MonoBehaviour {
 
         if (Physics.Raycast(ray, out RaycastHit info, 1000, tilesLayer)) {
             // Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere), info.transform.position + Vector3.up, Quaternion.identity).transform.localScale = Vector3.one * 0.25f;
-            if (info.transform.gameObject.layer == LayerMask.NameToLayer("Tile") && TileIsEmpty(info.transform.position)) {
-                var newPlant = Instantiate(currentPlant, info.transform.position + Vector3.up * currentPlant.upwardOffset, Quaternion.identity, transform);
+            if (info.transform.gameObject.layer == LayerMask.NameToLayer("Tile") && TileIsEmpty(info.transform)) {
+                // var newPlant = Instantiate(currentPlant, info.transform.position + Vector3.up * currentPlant.upwardOffset, Quaternion.identity, transform);
+                var newPlant = Instantiate(currentPlant, transform);
+                newPlant.transform.position = info.transform.position + Vector3.up * currentPlant.upwardOffset;
                 newPlant.StartUseAbility();
                 info.transform.GetComponent<Tile>().plant = newPlant;
             }
@@ -51,12 +53,9 @@ public class PlantsPlacer : MonoBehaviour {
         }
     }
 
-    private bool TileIsEmpty(Vector3 point) {
-        foreach (var tileObject in Physics.OverlapSphere(point + Vector3.up, 0.5f)) {
-            if (tileObject.tag == "Plant") {
-                return false;
-            }
-        }
-        return true;
+    private bool TileIsEmpty(Transform tileTransform) {
+        var tile = tileTransform.GetComponent<Tile>();
+        if (tile == null) return false;
+        return tile.plant == null;
     }
 }
