@@ -1,25 +1,34 @@
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(EventTrigger))]
 public class PlantDrag : MonoBehaviour {
     public Plant plant;
+
+    [HideInInspector]
+    public int timeout;
 
     private Camera cam;
     private PlantsPlacer placer;
     private Plant currentPlant;
     private float upwardOffset;
     private GameManager gameManager;
-
-    // Debug
+    private Image blackFill;
+    private bool isCounting;
 
     private void Start() {
         placer = FindObjectOfType<PlantsPlacer>();
         upwardOffset = plant.upwardOffset / 2;
         cam = Camera.main;
         gameManager = GameManager.instance;
+        blackFill = transform.Find("Container/BlackFill").GetComponent<Image>();
+        isCounting = false;
+        placer.plantPlaced.AddListener(p => { if (p == plant) StartCounting(); });
 
+        StartCounting();
         // Mouse up
         var trigger = GetComponent<EventTrigger>();
         var entry = new EventTrigger.Entry();
@@ -46,10 +55,25 @@ public class PlantDrag : MonoBehaviour {
         }
     }
 
-    public void MouseDown(BaseEventData data) {
-        if (placer.isDragging) return;
+    public void StartCounting() {
+        if (!isCounting)
+            StartCoroutine(StartCountingRoutine());
+    }
 
-        if (!gameManager.UseCoins(plant.price)) return;
+    IEnumerator StartCountingRoutine() {
+        isCounting = true;
+        for (float i = 0; i < timeout; i += 0.1f) {
+            blackFill.fillAmount = 1 - ((float)i / timeout);
+            yield return new WaitForSeconds(0.1f);
+        }
+        blackFill.fillAmount = 0;
+        isCounting = false;
+    }
+
+    public void MouseDown(BaseEventData data) {
+        if (placer.isDragging || isCounting) return;
+
+        if (!gameManager.CanUse(plant.price)) return;
 
         placer.isDragging = true;
 
@@ -72,6 +96,7 @@ public class PlantDrag : MonoBehaviour {
 
         if (currentPlant != null) {
             Destroy(currentPlant.gameObject);
+            gameManager.UseCoins(currentPlant.price);
             placer.PlacePlant();
         } else {
             throw new System.Exception("How did you get here?");
