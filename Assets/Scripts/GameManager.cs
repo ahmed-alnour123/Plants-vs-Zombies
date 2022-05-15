@@ -1,6 +1,6 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
@@ -8,7 +8,10 @@ public class GameManager : MonoBehaviour {
     public int coins;
     public int health;
     public TMP_Text coinsText;
-    [HideInInspector] public bool isDeleting;
+    public Toggle deleteToggle;
+    public Texture2D deleteCursor;
+    // [HideInInspector]
+    public bool isDeleting;
 
     private void Awake() {
         instance = this;
@@ -38,12 +41,13 @@ public class GameManager : MonoBehaviour {
         UpdateCoins();
     }
 
-    public bool UseCoins(int amount) {
-        if (coins < amount) return false;
+    public bool CanUse(int amount) {
+        return coins >= amount;
+    }
 
+    public void UseCoins(int amount) {
         coins -= amount;
         UpdateCoins();
-        return true;
     }
 
     private void UpdateCoins() {
@@ -59,6 +63,10 @@ public class GameManager : MonoBehaviour {
     }
 
     public void OnToggleChange(bool value) {
-        isDeleting = !value;
+        isDeleting = !deleteToggle.isOn;
+        Texture2D newCursor = null;
+        if (isDeleting)
+            newCursor = deleteCursor;
+        Cursor.SetCursor(newCursor, Vector2.one * 8, CursorMode.Auto);
     }
 }

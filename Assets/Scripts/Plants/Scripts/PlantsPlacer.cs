@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PlantsPlacer : MonoBehaviour {
+    [HideInInspector]
+    public UnityEvent<Plant> plantPlaced = default;
 
     public LayerMask tilesLayer;
     public Camera cam;
@@ -25,7 +28,9 @@ public class PlantsPlacer : MonoBehaviour {
         foreach (var plant in plants) {
             var card = Instantiate(cardTemplate, cardsUIParent);
             card.SetActive(true);
-            card.GetComponent<PlantDrag>().plant = plant;
+            var drag = card.GetComponent<PlantDrag>();
+            drag.plant = plant;
+            drag.timeout = plant.cardSpawnTimeout;
             card.GetComponentInChildren<Image>().color = gradient.Evaluate(((float)plants.IndexOf(plant) / plants.Count));
 
             card.transform.Find("Container/Frame/Image").GetComponent<Image>().sprite = plant.icon;
@@ -48,6 +53,7 @@ public class PlantsPlacer : MonoBehaviour {
                 newPlant.transform.position = info.transform.position + Vector3.up * currentPlant.upwardOffset;
                 newPlant.StartUseAbility();
                 info.transform.GetComponent<Tile>().plant = newPlant;
+                plantPlaced?.Invoke(currentPlant);
             }
             // if (info.transform.CompareTag("Plant"))
         }

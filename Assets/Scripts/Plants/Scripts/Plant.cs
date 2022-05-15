@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,27 +9,43 @@ public class Plant : MonoBehaviour {
     [HideInInspector]
     public UnityEvent died = default;
 
-    public GameObject bullet;
-    public GameObject sun;
+    public PlantType plantType;
+    public Sprite icon;
+
+    [Space(), Header("General")]
     public float upwardOffset;
     public int maxHealth;
     public int attackDamage;
     public float abilityTimeout;
-    public float abilityRadius;
-    public int abilityAmount;
+    public int cardSpawnTimeout;
     public int price;
 
-    public Sprite icon;
-    // [HideInInspector] public bool canUseAbility;
-    [SerializeField] public PlantType plantType;
+    [Header("Shooter")]
+    public GameObject bullet;
+
+    [Header("Generator")]
+    public GameObject sun;
+    public int abilityAmount;
+
+    [Header("Bomb")]
+    public float abilityRadius;
+    public GameObject explosionParticleSystem;
+
 
 
     private int currentHealth;
     private System.Action UseAbility;
+    private GameManager gameManager;
+    private bool isDamaging;
+    private Material material;
+    private Color color;
 
     void Start() {
         // transform.position += Vector3.up * upwardOffset;
         currentHealth = maxHealth;
+        gameManager = GameManager.instance;
+        material = GetComponent<MeshRenderer>().material;
+        color = material.color;
         // canUseAbility = true;
 
         UseAbility = plantType switch {
@@ -62,7 +80,22 @@ public class Plant : MonoBehaviour {
         currentHealth -= damage;
         if (currentHealth <= 0) {
             Die();
+        } else {
+            StartCoroutine(DamageEffect());
         }
+    }
+
+    IEnumerator DamageEffect() {
+        if (isDamaging) yield break;
+
+        isDamaging = true;
+
+        material.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        material.color = color;
+
+        isDamaging = false;
+
     }
 
     private void Die() {
@@ -72,9 +105,10 @@ public class Plant : MonoBehaviour {
             Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("Enemy")) {
-            // touchedEnemy?.Invoke();
+    private void OnMouseDown() {
+        if (gameManager.isDeleting) {
+            gameManager.AddCoins(price / 2);
+            Destroy(gameObject);
         }
     }
 
@@ -109,6 +143,7 @@ public class Plant : MonoBehaviour {
     }
 
     private void Explode() {
+        Instantiate(explosionParticleSystem, transform.position, Quaternion.identity);
         foreach (var collider in Physics.OverlapSphere(transform.position, abilityRadius)) {
             if (!collider.CompareTag("Enemy")) continue;
             collider.GetComponent<Enemy>().TakeDamage(attackDamage);

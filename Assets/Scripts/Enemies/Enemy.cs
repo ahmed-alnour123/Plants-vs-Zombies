@@ -12,17 +12,23 @@ public class Enemy : MonoBehaviour {
     public float attackTimeout;
     public float speed;
     public float upwardOffset;
+    public GameObject smokeParticleSystem;
 
     [HideInInspector]
     public bool canMove;
 
     private int currentHealth;
     private IEnumerator attackRoutine;
+    private bool isDamaging;
+    private Material material;
+    private Color color;
 
     void Start() {
         transform.position += Vector3.up * upwardOffset;
         currentHealth = maxHealth;
         canMove = true;
+        material = GetComponent<MeshRenderer>().material;
+        color = material.color;
     }
 
 
@@ -48,11 +54,29 @@ public class Enemy : MonoBehaviour {
         currentHealth -= damage;
         if (currentHealth <= 0) {
             Die();
+        } else {
+            StartCoroutine(DamageEffect());
         }
+    }
+
+    IEnumerator DamageEffect() {
+
+        if (isDamaging) yield break;
+
+        isDamaging = true;
+
+        material.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        material.color = color;
+
+        isDamaging = false;
+
+
     }
 
     private void Die() {
         died?.Invoke();
+        Instantiate(smokeParticleSystem, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 
