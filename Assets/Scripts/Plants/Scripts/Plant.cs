@@ -21,7 +21,7 @@ public class Plant : MonoBehaviour {
     public int price;
 
     [Header("Shooter")]
-    public GameObject bullet;
+    public Bullet bullet;
 
     [Header("Generator")]
     public GameObject sun;
@@ -30,6 +30,11 @@ public class Plant : MonoBehaviour {
     [Header("Bomb")]
     public float abilityRadius;
     public GameObject explosionParticleSystem;
+    [Header("Freeze")]
+    public Bullet freezeBullet;
+    [Range(0f, 1f)]
+    public float speedPercentage;
+    public float freezeTime;
 
 
 
@@ -49,18 +54,15 @@ public class Plant : MonoBehaviour {
         // canUseAbility = true;
 
         UseAbility = plantType switch {
-            PlantType.Gun => Attack,
+            PlantType.Melee => Attack,
+            PlantType.Gun => Shoot,
             PlantType.Sun => GenerateSuns,
             PlantType.Bomb => Explode,
+            PlantType.Freeze => Shoot,
             _ => () => { }
         };
 
         // StartUseAbility();
-    }
-
-
-    void Update() {
-
     }
 
     public void StartUseAbility() {
@@ -113,7 +115,7 @@ public class Plant : MonoBehaviour {
     }
 
     private void OnDrawGizmos() {
-        if (plantType == PlantType.Bomb) {
+        if (plantType == PlantType.Bomb || plantType == PlantType.Melee) {
             Gizmos.color = Color.white * 0.33f;
             Gizmos.DrawSphere(transform.position, abilityRadius);
         }
@@ -121,6 +123,13 @@ public class Plant : MonoBehaviour {
 
     #region Plants Abilities
     private void Attack() {
+        foreach (var collider in Physics.OverlapSphere(transform.position, abilityRadius)) {
+            if (!collider.CompareTag("Enemy")) continue;
+            collider.GetComponent<Enemy>().TakeDamage(attackDamage);
+        }
+    }
+
+    private void Shoot() {
         // check with raycast first
         var enemyExist = false;
         // foreach (var collider in Physics.RaycastAll(transform.position, Vector3.right)) {
@@ -133,8 +142,14 @@ public class Plant : MonoBehaviour {
         }
 
         if (enemyExist) {
-            var _bullet = Instantiate(bullet, transform.position, Quaternion.identity).GetComponent<Bullet>();
-            _bullet.damage = attackDamage;
+            if (plantType == PlantType.Gun) {
+                var _bullet = Instantiate(bullet, transform.position, Quaternion.identity);
+                _bullet.damage = attackDamage;
+            } else {
+                var _bullet = Instantiate(freezeBullet, transform.position, Quaternion.identity);
+                _bullet.speedPercentage = speedPercentage;
+                _bullet.freezeTime = freezeTime;
+            }
         }
     }
 
@@ -153,4 +168,4 @@ public class Plant : MonoBehaviour {
     #endregion Plants Abilities
 
 }
-public enum PlantType { Gun, Sun, Bomb }
+public enum PlantType { Melee, Gun, Sun, Bomb, Freeze }

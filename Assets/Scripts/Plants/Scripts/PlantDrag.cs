@@ -96,7 +96,6 @@ public class PlantDrag : MonoBehaviour {
 
         if (currentPlant != null) {
             Destroy(currentPlant.gameObject);
-            gameManager.UseCoins(currentPlant.price);
             placer.PlacePlant();
         } else {
             throw new System.Exception("How did you get here?");

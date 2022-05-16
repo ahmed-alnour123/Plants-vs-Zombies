@@ -36,7 +36,7 @@ public class EnemiesSpawner : MonoBehaviour {
         for (int j = 0; j < waves[i]; j++) {
             currentEnemiesCount++;
             gameObject.LeanValue(waveSlider.value, (float)currentEnemiesCount / enemiesCount, 2).setOnUpdate(f => waveSlider.value = f);
-            var enemy = Instantiate(Utils.RandomSelect<GameObject>(enemies), Utils.RandomSelect<Transform>(spawnPoints).position, Quaternion.identity);
+            var enemy = Instantiate(Utils.RandomSelect<GameObject>(enemies), Utils.RandomSelect<Transform>(spawnPoints).position, Quaternion.Euler(Vector3.up * -90));
             if (j == waves[i] - 1) // if last enemy
                 enemy.GetComponent<Enemy>().died.AddListener(() => {
                     if (lastWave)

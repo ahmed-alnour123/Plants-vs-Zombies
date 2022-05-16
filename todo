@@ -1,0 +1,95 @@
+add weighted random select for enemies
+✘ focus in sprites layers order @cancelled(22-05-15 17:24)
+✔ rearrange variables and make it more beautiful @done(22-05-15 17:24)
+✔ add sunPlant @done(22-05-15 17:24)
+✔ find a good way to make variants @done(22-05-15 17:24)
+
+✔ use shuffle to remove plants @done(22-05-15 17:24)
+☐ add filling effect
+✔ wave counter @done(22-05-15 16:34)
+☐ icons & particle system
+
+win/lose UI
+Bugs:
+    money reduces onClick not onPlace
+
+notes:
+    zombies can bypass each other
+    zombies stop to attack plants
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+✔ particle system @done(22-05-15 23:32)
+✔ weaker and slower enemies @done(22-05-15 23:12)
+✔ damege effect @done(22-05-15 23:32)
+✔ die effect @done(22-05-15 23:44)
+
+✔ water shader @done(22-05-16 11:10)
+parasite l starkie
+zlorp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+✔ new melee attack plants @done(22-05-16 05:49)
+✔ new freeze plants @done(22-05-16 10:49)
+win/lose screen
+
+level 1:
+  melee and shooters
+level 2:
+  bombs and freezers
+

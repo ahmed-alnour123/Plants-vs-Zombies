@@ -54,6 +54,7 @@ public class PlantsPlacer : MonoBehaviour {
                 newPlant.StartUseAbility();
                 info.transform.GetComponent<Tile>().plant = newPlant;
                 plantPlaced?.Invoke(currentPlant);
+                gameManager.UseCoins(currentPlant.price);
             }
             // if (info.transform.CompareTag("Plant"))
         }

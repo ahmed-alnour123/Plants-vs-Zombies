@@ -1,12 +1,16 @@
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour {
     public float speed;
+    public bool isFreezeBullet;
 
     [HideInInspector]
     public int damage;
+
+    [HideInInspector]
+    public float speedPercentage;
+    [HideInInspector]
+    public float freezeTime;
 
     private Rigidbody rb;
 
@@ -17,7 +21,12 @@ public class Bullet : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Enemy")) {
-            other.GetComponent<Enemy>().TakeDamage(damage);
+            var enemy = other.GetComponent<Enemy>();
+            if (isFreezeBullet) {
+                enemy.ReduceSpeed(speedPercentage, freezeTime);
+            } else {
+                enemy.TakeDamage(damage);
+            }
             Destroy(gameObject);
         }
     }

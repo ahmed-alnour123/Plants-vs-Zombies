@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour {
     private int currentHealth;
     private IEnumerator attackRoutine;
     private bool isDamaging;
+    private bool isSlowing;
     private Material material;
     private Color color;
 
@@ -27,10 +28,9 @@ public class Enemy : MonoBehaviour {
         transform.position += Vector3.up * upwardOffset;
         currentHealth = maxHealth;
         canMove = true;
-        material = GetComponent<MeshRenderer>().material;
+        material = GetComponentInChildren<MeshRenderer>().material;
         color = material.color;
     }
-
 
     void Update() {
         if (canMove)
@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour {
     }
 
     void Move() {
-        transform.Translate(Vector3.left * speed * Time.deltaTime);
+        transform.Translate(Vector3.left * speed * Time.deltaTime, Space.World);
     }
 
     private IEnumerator Attack(Plant plant) {
@@ -72,6 +72,20 @@ public class Enemy : MonoBehaviour {
         isDamaging = false;
 
 
+    }
+
+    public void ReduceSpeed(float percentage, float time) {
+        if (!isSlowing)
+            StartCoroutine(ReduceSpeedRoutine(percentage, time));
+    }
+
+    IEnumerator ReduceSpeedRoutine(float percentage, float time) {
+        isSlowing = true;
+        var originalSpeed = speed;
+        speed *= percentage;
+        yield return new WaitForSeconds(time);
+        speed = originalSpeed;
+        isSlowing = false;
     }
 
     private void Die() {
