@@ -51,6 +51,7 @@ public class PlantsPlacer : MonoBehaviour {
                 // var newPlant = Instantiate(currentPlant, info.transform.position + Vector3.up * currentPlant.upwardOffset, Quaternion.identity, transform);
                 var newPlant = Instantiate(currentPlant, transform);
                 newPlant.transform.position = info.transform.position + Vector3.up * currentPlant.upwardOffset;
+                newPlant.transform.rotation = Quaternion.Euler(Vector3.up * 90);
                 newPlant.StartUseAbility();
                 info.transform.GetComponent<Tile>().plant = newPlant;
                 plantPlaced?.Invoke(currentPlant);

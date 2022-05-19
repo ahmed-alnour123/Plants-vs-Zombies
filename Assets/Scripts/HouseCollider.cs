@@ -7,10 +7,14 @@ public class HouseCollider : MonoBehaviour {
         gameManager = GameManager.instance;
     }
 
-    private void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("Enemy")) {
-            gameManager.AttackHouse();
-        }
+    public void TakeDamage(int amount) {
+        gameManager.AttackHouse();
     }
+
+    // private void OnTriggerEnter(Collider other) {
+    //     if (other.CompareTag("Enemy")) {
+    //         // gameManager.AttackHouse();
+    //     }
+    // }
 }
 

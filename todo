@@ -5,37 +5,18 @@ add weighted random select for enemies
 ✔ find a good way to make variants @done(22-05-15 17:24)
 
 ✔ use shuffle to remove plants @done(22-05-15 17:24)
-☐ add filling effect
+✔ add filling effect @done(22-05-17 12:54)
 ✔ wave counter @done(22-05-15 16:34)
-☐ icons & particle system
+✔ icons & particle system @done(22-05-17 12:54)
 
-win/lose UI
+✔ win/lose UI @done(22-05-18 13:57)
 Bugs:
-    money reduces onClick not onPlace
+    ✔ money reduces onClick not onPlace @done(22-05-17 12:55)
 
 notes:
     zombies can bypass each other
     zombies stop to attack plants
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ✔ particle system @done(22-05-15 23:32)
 ✔ weaker and slower enemies @done(22-05-15 23:12)
@@ -43,53 +24,34 @@ notes:
 ✔ die effect @done(22-05-15 23:44)
 
 ✔ water shader @done(22-05-16 11:10)
-parasite l starkie
-zlorp
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+✔ parasite l starkie @done(22-05-17 12:55)
+✔ zlorp @done(22-05-17 12:55)
 
 ✔ new melee attack plants @done(22-05-16 05:49)
 ✔ new freeze plants @done(22-05-16 10:49)
-win/lose screen
+✔ win/lose screen @done(22-05-17 19:24)
 
 level 1:
-  melee and shooters
+  ☐ melee and shooters
 level 2:
-  bombs and freezers
+  ☐ bombs and freezers
 
+✔ Die animation @done(22-05-18 13:14)
+
+todo:
+  ✔ plants icon @done(22-05-18 17:05)
+  ✔ sun prefab @done(22-05-19 10:38)
+  ✔ idle animation @done(22-05-18 16:30)
+  ✔ ship damage @done(22-05-18 15:15)
+
+bug:
+  ✔ alien model not being red when attacking @done(22-05-19 10:57)
+  ✔ enemy slide (animation error) [can't reproduce] @done(22-05-19 10:48)
+  ✔ destroting plant while enemy attacking @done(22-05-18 16:30)
+  ✔ plants attack when instantiating @done(22-05-18 16:35)
+  
+✔ fix animations @done(22-05-19 17:06)
+✔ change UI colors @done(22-05-19 17:06)
+✔ add sounds @done(22-05-19 19:32)
+
+use RPG UI

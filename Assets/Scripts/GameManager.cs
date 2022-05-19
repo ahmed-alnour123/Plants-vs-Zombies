@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
@@ -10,8 +11,14 @@ public class GameManager : MonoBehaviour {
     public TMP_Text coinsText;
     public Toggle deleteToggle;
     public Texture2D deleteCursor;
-    // [HideInInspector]
+    public UIShowAnimation winMenu;
+    public UIShowAnimation loseMenu;
+    public Image houseHealth;
+
+    [HideInInspector]
     public bool isDeleting;
+
+    private int initHealth;
 
     private void Awake() {
         instance = this;
@@ -20,18 +27,25 @@ public class GameManager : MonoBehaviour {
     private void Start() {
         UpdateCoins();
         isDeleting = false;
+        initHealth = health;
+        Resume();
     }
 
     private void LoseGame() {
         Debug.Log("You Lost");
+        Pause();
+        loseMenu.Show();
     }
 
     public void WinGame() {
         Debug.Log("You Won");
+        Pause();
+        winMenu.Show();
     }
 
-    public void AttackHouse() {
-        health--;
+    public void AttackHouse(int amount = 1) {
+        health -= amount;
+        houseHealth.fillAmount = (float)health / initHealth;
         if (health <= 0)
             LoseGame();
     }
@@ -60,6 +74,14 @@ public class GameManager : MonoBehaviour {
 
     public void Pause() {
         Time.timeScale = 0;
+    }
+
+    public void RestartLevel() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void LoadNextLevel() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void OnToggleChange(bool value) {

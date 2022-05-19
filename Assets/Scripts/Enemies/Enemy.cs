@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,6 +11,8 @@ public class Enemy : MonoBehaviour {
 
     public int maxHealth;
     public int attackDamage;
+    [HideInInspector]
+    public float attackAnimationTimeout = 0.85f;
     public float attackTimeout;
     public float speed;
     public float upwardOffset;
@@ -21,18 +25,22 @@ public class Enemy : MonoBehaviour {
     private IEnumerator attackRoutine;
     private bool isDamaging;
     private bool isSlowing;
-    private Material material;
-    private Color color;
+    private List<Material> materials;
+    // private Color color;
+    private Animator animator;
 
     void Start() {
         transform.position += Vector3.up * upwardOffset;
         currentHealth = maxHealth;
         canMove = true;
-        material = GetComponentInChildren<MeshRenderer>().material;
-        color = material.color;
+        materials = new List<Material>();
+        GetComponentsInChildren<Renderer>().ToList().ForEach(r => materials.AddRange(r.materials));
+        animator = GetComponent<Animator>();
+        animator.SetFloat("moveSpeedMult", speed * 0.5f);
     }
 
     void Update() {
+        animator.SetBool("canMove", canMove);
         if (canMove)
             Move();
     }
@@ -44,6 +52,8 @@ public class Enemy : MonoBehaviour {
     private IEnumerator Attack(Plant plant) {
         while (true) {
             // play attack animation
+            animator.SetTrigger("Attack");
+            yield return new WaitForSeconds(attackAnimationTimeout);
             plant.TakeDamage(attackDamage);
             yield return new WaitForSeconds(attackTimeout);
         }
@@ -55,6 +65,8 @@ public class Enemy : MonoBehaviour {
         if (currentHealth <= 0) {
             Die();
         } else {
+            animator.SetTrigger("Hit");
+            SoundManager.instance.PlaySound(Sounds.ZombieHit);
             StartCoroutine(DamageEffect());
         }
     }
@@ -65,13 +77,21 @@ public class Enemy : MonoBehaviour {
 
         isDamaging = true;
 
-        material.color = Color.red;
+        var colors = new List<Color>();
+        // animator.SetTrigger("Hit");
+        foreach (var material in materials) {
+            colors.Add(material.color);
+            material.color = Color.red;
+        }
+
         yield return new WaitForSeconds(0.2f);
-        material.color = color;
+
+        foreach (var material in materials) {
+            material.color = colors[0];
+            colors.RemoveAt(0);
+        }
 
         isDamaging = false;
-
-
     }
 
     public void ReduceSpeed(float percentage, float time) {
@@ -91,7 +111,14 @@ public class Enemy : MonoBehaviour {
     private void Die() {
         died?.Invoke();
         Instantiate(smokeParticleSystem, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        canMove = false;
+        animator.SetTrigger("Dead");
+        SoundManager.instance.PlaySound(Sounds.ZombieDie);
+        // StopAllCoroutines();
+        if (attackRoutine != null)
+            StopCoroutine(attackRoutine);
+        GetComponentsInChildren<Collider>().ToList().ForEach(c => c.enabled = false);
+        Destroy(gameObject, 3);
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -99,7 +126,9 @@ public class Enemy : MonoBehaviour {
             canMove = false;
             var plant = other.GetComponent<Plant>();
             plant.died.AddListener(() => {
-                StopCoroutine(attackRoutine);
+                // StopAllCoroutines();
+                if (attackRoutine != null)
+                    StopCoroutine(attackRoutine);
                 canMove = true;
             });
             attackRoutine = Attack(plant);

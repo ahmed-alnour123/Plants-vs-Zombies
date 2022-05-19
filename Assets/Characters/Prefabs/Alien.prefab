@@ -1714,6 +1714,7 @@ GameObject:
   - component: {fileID: 2503756383296671248}
   - component: {fileID: 1307449791175938175}
   - component: {fileID: 5451823538060037790}
+  - component: {fileID: -958267470555906369}
   m_Layer: 0
   m_Name: Alien
   m_TagString: Enemy
@@ -1751,7 +1752,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 1765c12c145c1b41280e6f2eb8f3fcfc, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -1769,8 +1770,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.6954588, y: 1.8396161, z: 0.56787676}
-  m_Center: {x: -0.00040197372, y: 0.87118566, z: 0.046016842}
+  m_Size: {x: 0.8483157, y: 1.8396161, z: 0.86783314}
+  m_Center: {x: -0.00040197372, y: 0.87118566, z: 0.0045399666}
 --- !u!114 &5451823538060037790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1788,8 +1789,25 @@ MonoBehaviour:
       m_Calls: []
   maxHealth: 3
   attackDamage: 2
+  attackAnimationTimeout: 0.85
   attackTimeout: 2
   speed: 0.5
-  upwardOffset: 1.5
+  upwardOffset: 1
   smokeParticleSystem: {fileID: 100000, guid: 921a3ff88856fe04ebc86b196fd8cc59, type: 3}
   canMove: 0
+--- !u!54 &-958267470555906369
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9157187288106421968}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

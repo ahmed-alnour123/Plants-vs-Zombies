@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Macros;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -22,6 +23,7 @@ public class Plant : MonoBehaviour {
 
     [Header("Shooter")]
     public Bullet bullet;
+    public Transform shootPoint;
 
     [Header("Generator")]
     public GameObject sun;
@@ -42,15 +44,21 @@ public class Plant : MonoBehaviour {
     private System.Action UseAbility;
     private GameManager gameManager;
     private bool isDamaging;
-    private Material material;
-    private Color color;
+    private List<Material> materials;
+    private Animator animator;
+    private float attackAnimationTimeout;
+
+    private void Awake() {
+        animator = GetComponent<Animator>();
+    }
 
     void Start() {
         // transform.position += Vector3.up * upwardOffset;
         currentHealth = maxHealth;
         gameManager = GameManager.instance;
-        material = GetComponent<MeshRenderer>().material;
-        color = material.color;
+        shootPoint = transform.Find("ShootPoint");
+        materials = GetComponentsInChildren<Renderer>().Select(r => r.material).ToList();
+        attackAnimationTimeout = (plantType == PlantType.Gun || plantType == PlantType.Freeze) ? 0.35f : (plantType == PlantType.Melee) ? 1 : 0;
         // canUseAbility = true;
 
         UseAbility = plantType switch {
@@ -70,15 +78,28 @@ public class Plant : MonoBehaviour {
     }
 
     private IEnumerator UseAbilityRoutine() {
+        yield return new WaitForSeconds(plantType == PlantType.Bomb ? 0 : 1);
         while (true) {
             // if (canUseAbility)
+            if (plantType == PlantType.Melee && CheckForEnemyMelee()) {
+                if (animator != null)
+                    animator.SetTrigger("Swing");
+            } else if ((plantType == PlantType.Gun || plantType == PlantType.Freeze) && EnemyExist()) {
+                if (animator != null)
+                    animator.SetTrigger("Shoot");
+            }
+            yield return new WaitForSeconds(attackAnimationTimeout);
             UseAbility?.Invoke();
             yield return new WaitForSeconds(abilityTimeout);
         }
     }
 
     public void TakeDamage(int damage) {
-        // play hit animation
+        if (plantType == PlantType.House) {
+            HandleHouseAttack(damage);
+            return;
+        }
+        SoundManager.instance.PlaySound(Sounds.PlantHit);
         currentHealth -= damage;
         if (currentHealth <= 0) {
             Die();
@@ -92,31 +113,70 @@ public class Plant : MonoBehaviour {
 
         isDamaging = true;
 
-        material.color = Color.red;
+        var colors = new List<Color>();
+        // animator.SetTrigger("Hit");
+        foreach (var material in materials) {
+            colors.Add(material.color);
+            material.color = Color.red;
+        }
+
         yield return new WaitForSeconds(0.2f);
-        material.color = color;
+
+        foreach (var material in materials) {
+            material.color = colors[0];
+            colors.RemoveAt(0);
+        }
 
         isDamaging = false;
 
     }
 
-    private void Die() {
+    private void Die(bool instant = false) {
         // play death animation
         died?.Invoke();
+        StopAllCoroutines();
+        UseAbility = () => { };
+        GetComponentsInChildren<Collider>().ToList().ForEach(c => c.enabled = false);
+        if (animator != null)
+            animator.SetTrigger("Dead");
         if (gameObject != null)
-            Destroy(gameObject);
+            Destroy(gameObject, (instant || plantType == PlantType.Sun) ? 0 : 3);
     }
 
     private void OnMouseDown() {
         if (gameManager.isDeleting) {
             gameManager.AddCoins(price / 2);
-            Destroy(gameObject);
+            // died?.Invoke();
+            // Destroy(gameObject);
+            Die(true);
         }
+    }
+
+    private bool EnemyExist() {
+        var enemyExist = false;
+        foreach (var collider in Physics.BoxCastAll(transform.position, Vector3.one * 0.25f, Vector3.right)) {
+            if (collider.collider.CompareTag("Enemy")) {
+                enemyExist = true;
+                break;
+            }
+        }
+        return enemyExist;
+    }
+
+    private bool CheckForEnemyMelee() {
+        var enemyExist = false;
+        foreach (var collider in Physics.OverlapSphere(transform.position, abilityRadius)) {
+            if (collider.CompareTag("Enemy")) {
+                enemyExist = true;
+                break;
+            }
+        }
+        return enemyExist;
     }
 
     private void OnDrawGizmos() {
         if (plantType == PlantType.Bomb || plantType == PlantType.Melee) {
-            Gizmos.color = Color.white * 0.33f;
+            Gizmos.color = Color.black * 0.33f;
             Gizmos.DrawSphere(transform.position, abilityRadius);
         }
     }
@@ -125,28 +185,21 @@ public class Plant : MonoBehaviour {
     private void Attack() {
         foreach (var collider in Physics.OverlapSphere(transform.position, abilityRadius)) {
             if (!collider.CompareTag("Enemy")) continue;
+            // animator.SetTrigger("Attack");
             collider.GetComponent<Enemy>().TakeDamage(attackDamage);
         }
+        SoundManager.instance.PlaySound(Sounds.Sword);
     }
 
     private void Shoot() {
-        // check with raycast first
-        var enemyExist = false;
-        // foreach (var collider in Physics.RaycastAll(transform.position, Vector3.right)) {
-
-        foreach (var collider in Physics.BoxCastAll(transform.position, Vector3.one * 0.25f, Vector3.right)) {
-            if (collider.collider.CompareTag("Enemy")) {
-                enemyExist = true;
-                break;
-            }
-        }
-
-        if (enemyExist) {
+        if (EnemyExist()) {
+            // animator.SetTrigger("Shoot");
+            SoundManager.instance.PlaySound(Sounds.Gun);
             if (plantType == PlantType.Gun) {
-                var _bullet = Instantiate(bullet, transform.position, Quaternion.identity);
+                var _bullet = Instantiate(bullet, shootPoint.position, Quaternion.identity);
                 _bullet.damage = attackDamage;
             } else {
-                var _bullet = Instantiate(freezeBullet, transform.position, Quaternion.identity);
+                var _bullet = Instantiate(freezeBullet, shootPoint.position, Quaternion.identity);
                 _bullet.speedPercentage = speedPercentage;
                 _bullet.freezeTime = freezeTime;
             }
@@ -155,6 +208,7 @@ public class Plant : MonoBehaviour {
 
     private void GenerateSuns() {
         Instantiate(sun, transform.position + Vector3.up + Random.onUnitSphere * 0.25f, Quaternion.identity).GetComponent<Sun>().coins = abilityAmount;
+        SoundManager.instance.PlaySound(Sounds.Coin);
     }
 
     private void Explode() {
@@ -163,9 +217,16 @@ public class Plant : MonoBehaviour {
             if (!collider.CompareTag("Enemy")) continue;
             collider.GetComponent<Enemy>().TakeDamage(attackDamage);
         }
-        Destroy(gameObject);
+        // died?.Invoke();
+        // Destroy(gameObject);
+        SoundManager.instance.PlaySound(Sounds.Bomb);
+        Die(true);
+    }
+
+    private void HandleHouseAttack(int amount) {
+        gameManager.AttackHouse(amount);
     }
     #endregion Plants Abilities
 
 }
-public enum PlantType { Melee, Gun, Sun, Bomb, Freeze }
+public enum PlantType { Melee, Gun, Sun, Bomb, Freeze, House }

@@ -18,6 +18,7 @@ public class Tile : MonoBehaviour {
     private void OnMouseDown() {
         if (gameManager.isDeleting && plant != null) {
             gameManager.AddCoins(plant.price / 2);
+            plant.died?.Invoke();
             Destroy(plant.gameObject);
         }
     }
