@@ -22,11 +22,9 @@ public class Bullet : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Enemy")) {
             var enemy = other.GetComponent<Enemy>();
-            if (isFreezeBullet) {
+            if (isFreezeBullet)
                 enemy.ReduceSpeed(speedPercentage, freezeTime);
-            } else {
-                enemy.TakeDamage(damage);
-            }
+            enemy.TakeDamage(damage);
             Destroy(gameObject);
         }
     }

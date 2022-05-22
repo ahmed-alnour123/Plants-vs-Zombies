@@ -101,5 +101,3 @@ crashlytics-build.properties
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,visualstudiocode
-/Assets/Characters/Models/Alien.fbx
-/Assets/Characters/Models/Sailor.fbx

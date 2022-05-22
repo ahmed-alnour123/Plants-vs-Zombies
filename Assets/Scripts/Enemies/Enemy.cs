@@ -82,6 +82,7 @@ public class Enemy : MonoBehaviour {
         foreach (var material in materials) {
             colors.Add(material.color);
             material.color = Color.red;
+            material.SetColor("_EmissionColor", Color.red);
         }
 
         yield return new WaitForSeconds(0.2f);
@@ -89,6 +90,7 @@ public class Enemy : MonoBehaviour {
         foreach (var material in materials) {
             material.color = colors[0];
             colors.RemoveAt(0);
+            material.SetColor("_EmissionColor", Color.white);
         }
 
         isDamaging = false;

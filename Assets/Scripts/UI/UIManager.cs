@@ -1,4 +1,4 @@
-using UnityEditor;
+// using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour {
     }
 
     public void ExitGame() {
-        EditorApplication.ExitPlaymode();
+        // EditorApplication.ExitPlaymode();
         Application.Quit();
     }
 }
